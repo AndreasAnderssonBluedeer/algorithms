@@ -97,7 +97,7 @@ public class AvlTree {
 					current.setLeft(newNode);
 					newNode.setParent(current);
 					System.out.println("InsertVärde:"+newNode.getData());
-					balance(newNode,current);
+					addBalance(newNode,current);
 					return current;
 			}else{
 				 insert(left,newNode,value);
@@ -108,7 +108,7 @@ public class AvlTree {
 				current.setRight(newNode);
 				newNode.setParent(current);
 				System.out.println("InsertVärde:"+newNode.getData());
-				balance(newNode,current);
+				addBalance(newNode,current);
 				return current;
 		
 			}else{
@@ -118,13 +118,34 @@ public class AvlTree {
 			return current;
     }
     
-    public void balance(TreeNode node,TreeNode parent){
+    public void addBalance(TreeNode node,TreeNode parent){
     	
-    	if(node==parent.getLeft()){
-    		parent.addBalance(-1);
+    	int pBalance=parent.getBalance();
+    	int nBalance=node.getBalance();
+    	System.out.println("Balance");
+    	if(node==parent.getLeft()){	//är den för tung?   		
+    		System.out.println("XXX");
+    		if(pBalance == -1){ 	//vänster,Vänster tung
+    			System.out.println("P Bal -1");
+    			if(nBalance == 1){	//vänster höger?
+    				System.out.println("N Bal 1");
+    				rotateLeft(node);
+    				
+    			}
+    			System.out.println("Rotate 1");
+    			rotateRight(parent);	//rotera föräldern höger.
+    			//break;
+    		}
+    		if (pBalance == -1) {
+    			System.out.println("P Bal -1");
+    		       parent.setBalance(0); // N’s height increase is absorbed at P.
+    		     //  break; // Leave the loop
+    		     }
+    		parent.setBalance(1);
     	}
     	else if(node==parent.getRight()){
-    		parent.addBalance(1);
+    		System.out.println("GetRIght");
+    		parent.setBalance(1);
     	}
     		
     	
@@ -137,15 +158,15 @@ public class AvlTree {
     	parent=parent.getParent();
     	
     	if(parent!=null){
-    		balance(node,parent);
+    		addBalance(node,parent);
     	}
     	
     }
     public void rotateLeft(TreeNode rotate){
-    	
+    	System.out.println("Rotate Left");
     }
     public void rotateRight(TreeNode rotate){
-    	
+    	System.out.println("Rotate Right");
     }
     
     public void find(int value){
