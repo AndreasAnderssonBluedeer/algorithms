@@ -122,30 +122,45 @@ public class AvlTree {
     	
     	int pBalance=parent.getBalance();
     	int nBalance=node.getBalance();
-    	System.out.println("Balance");
+    	
+    	//Förälderns vänsterbarn
     	if(node==parent.getLeft()){	//är den för tung?   		
-    		System.out.println("XXX");
+    		System.out.println("getLeft");
     		if(pBalance == -1){ 	//vänster,Vänster tung
-    			System.out.println("P Bal -1");
+    		
     			if(nBalance == 1){	//vänster höger?
-    				System.out.println("N Bal 1");
+    				
     				rotateLeft(node);
     				
     			}
-    			System.out.println("Rotate 1");
+    			
     			rotateRight(parent);	//rotera föräldern höger.
     			//break;
     		}
     		if (pBalance == -1) {
-    			System.out.println("P Bal -1");
+    			
     		       parent.setBalance(0); // N’s height increase is absorbed at P.
     		     //  break; // Leave the loop
     		     }
+    		
     		parent.setBalance(1);
-    	}
+    	}	//Förälderns högerbarn
     	else if(node==parent.getRight()){
     		System.out.println("GetRIght");
-    		parent.setBalance(1);
+    		if(pBalance == -1){
+    			
+    			if(nBalance == 1){
+    				rotateRight(node);
+    			}
+    			rotateLeft(parent);
+    		}
+    		if(pBalance == 1){
+    			
+    			parent.setBalance(0);
+    		}
+    	
+    		parent.setBalance(-1);
+    		
     	}
     		
     	
@@ -163,10 +178,25 @@ public class AvlTree {
     	
     }
     public void rotateLeft(TreeNode rotate){
-    	System.out.println("Rotate Left");
+    	System.out.println("**Rotate Left**");
     }
     public void rotateRight(TreeNode rotate){
-    	System.out.println("Rotate Right");
+    	System.out.println("**Rotate Right**");
+    	TreeNode p=rotate.getLeft();	//P =rotates vänstra barn
+    	rotate.setLeft(p.getRight());	//rotates vänstra barn= p's högra barn
+    	p.getRight().setParent(rotate);	//p's högra barns förälder=rotate
+    	p.setRight(rotate);				//p's högra barn=rotate
+    	rotate.setParent(p);			//rotates förälder=p
+    	
+    	/*
+    	 * Right Rotation of node Q:
+			
+			Let P be Q's left child.
+			Set Q's left child to be P's right child.
+			[Set P's right-child's parent to Q]*
+			Set P's right child to be Q.
+			[Set Q's parent to P]
+    	 */
     }
     
     public void find(int value){

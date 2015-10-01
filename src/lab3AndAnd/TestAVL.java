@@ -7,7 +7,7 @@ public class TestAVL {
 		at.add(2);
 		at.add(6);
 		at.add(9);
-		at.add(7);
+		at.add(10);
 		
 		at.printTree();
 	}
