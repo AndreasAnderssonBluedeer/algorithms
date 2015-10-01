@@ -15,10 +15,18 @@ public class AvlTree {
         }    
         size++;
         if(data==10){
-        	rotateLeft(find(10));
+        	//För dubbelrotation .tex 6-11-10 mönster höger,höger,vänster
+        	TreeNode test=find(10);
+        	test.getParent().setRight(test);
+        	test.getParent().setLeft(null);
+        	rotateLeft(test);
         }
-        if(data==1){
-        	rotateRight(find(1));
+        if(data==2){
+        	//För dubbelrotation .tex 3-1-2 mönster vänster vänster,höger
+        	TreeNode test=find(2);
+        	test.getParent().setLeft(test);
+        	test.getParent().setRight(null);
+        	rotateRight(test);
         }
       
     }
