@@ -6,7 +6,7 @@ public class AvlTree {
     private int size;
     private TreeNode root;  
    
-    public void add(int data){
+    public void add(int data){	
         TreeNode newNode= new TreeNode(data); //skapa en ny node
         if(root==null){
         	root=newNode;
@@ -14,6 +14,13 @@ public class AvlTree {
          root=insert(root,newNode,data);
         }    
         size++;
+        if(data==10){
+        	rotateLeft(find(10));
+        }
+        if(data==1){
+        	rotateRight(find(1));
+        }
+      
     }
     public int getSize(){
     	return size;
@@ -97,7 +104,7 @@ public class AvlTree {
 					current.setLeft(newNode);
 					newNode.setParent(current);
 					System.out.println("InsertVärde:"+newNode.getData());
-					addBalance(newNode,current);
+				//	addBalance(newNode,current);
 					return current;
 			}else{
 				 insert(left,newNode,value);
@@ -108,7 +115,7 @@ public class AvlTree {
 				current.setRight(newNode);
 				newNode.setParent(current);
 				System.out.println("InsertVärde:"+newNode.getData());
-				addBalance(newNode,current);
+				//addBalance(newNode,current);
 				return current;
 		
 			}else{
@@ -177,35 +184,71 @@ public class AvlTree {
     	}
     	
     }
-    public void rotateLeft(TreeNode rotate){
-    	System.out.println("**Rotate Left**");
-    }
-    public void rotateRight(TreeNode rotate){
-    	System.out.println("**Rotate Right**");
-    	TreeNode p=rotate.getLeft();	//P =rotates vänstra barn
-    	rotate.setLeft(p.getRight());	//rotates vänstra barn= p's högra barn
-    	p.getRight().setParent(rotate);	//p's högra barns förälder=rotate
-    	p.setRight(rotate);				//p's högra barn=rotate
-    	rotate.setParent(p);			//rotates förälder=p
+    
+    public void rotateLeft(TreeNode   c){
     	
-    	/*
-    	 * Right Rotation of node Q:
-			
-			Let P be Q's left child.
-			Set Q's left child to be P's right child.
-			[Set P's right-child's parent to Q]*
-			Set P's right child to be Q.
-			[Set Q's parent to P]
-    	 */
+    	System.out.println("**Rotate Left**");
+    	
+    	TreeNode b=  c.getParent();
+    	System.out.println(b.getData());
+    	
+    	TreeNode a=b.getParent();
+    	TreeNode aRight=  b.getLeft();
+    	TreeNode aParent=a.getParent();
+    	
+    	System.out.println("Förälder: "+b.getData()+" FöräldersFörälder: "+a.getData()+
+    			" FÖräldersblivandeHöger: ");
+    	
+    	  b.setLeft(a);
+    	  b.setParent(aParent);
+    	
+    	if(aParent.getLeft()==a){
+    		aParent.setLeft(  b);
+    	}
+    	else{
+    		aParent.setRight(  b);
+    	}
+    	a.setParent(  b);
+    	a.setRight(aRight);
+    	
+    	
+    }
+    public void rotateRight(TreeNode a){
+    	
+    	System.out.println("**Rotate Right**");
+    	
+    	TreeNode b=  a.getParent();
+    	System.out.println(b.getData());
+    	
+    	TreeNode c=b.getParent();
+    	TreeNode cLeft=  b.getRight();
+    	TreeNode cParent=c.getParent();
+    	
+    	System.out.println("Förälder: "+b.getData()+" FöräldersFörälder: "+a.getData()+
+    			" FÖräldersblivandeHöger: ");
+    	
+    	  b.setRight(c);
+    	  b.setParent(cParent);
+    	
+    	if(cParent.getLeft()==c){
+    		cParent.setLeft(  b);
+    	}
+    	else{
+    		cParent.setRight(  b);
+    	}
+    	a.setParent(  b);
+    	c.setLeft(cLeft);
+    	
     }
     
-    public void find(int value){
+    public TreeNode find(int value){
     	TreeNode findNode=find(value,root);
     	if(findNode!=null){
     		System.out.println("Värdet '"+value+"' hittades.");
     	}else{
     		System.out.println("Värdet '"+value+"' hittades inte.");
     	}
+    	return findNode;
     }	
     public TreeNode find(int key, TreeNode node){
     		
