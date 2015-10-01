@@ -13,8 +13,11 @@ public class TreeNode {
     public TreeNode (int data){
         this.data=data;
     }
-    public void setBalance(int value){
-    	balance=value;
+    public void resetBalance(){
+    	balance=0;
+    }
+    public void addBalance(int value){
+    	balance+=value;
     }
     public int getBalance(){
     	return balance;

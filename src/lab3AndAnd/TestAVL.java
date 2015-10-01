@@ -8,13 +8,18 @@ public class TestAVL {
 		at.add(6);
 		at.add(11);
 		at.printTree();
+		System.out.println();
+		at.inOrder(at.getRoot());
+		System.out.println();
 		at.add(10);
 		at.add(3);
 		at.add(1);
-		at.printTree();
+		
 		at.add(2);
 		
-		
+		System.out.println();
+		at.inOrder(at.getRoot());
+		System.out.println();
 		at.printTree();
 	}
 }
