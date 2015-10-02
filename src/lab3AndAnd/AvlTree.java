@@ -11,43 +11,48 @@ public class AvlTree {
         if(root==null){
         	root=newNode;
         }else{
-         root=insert(root,newNode,data);
+         insert(root,newNode,data);	//Sätter inte förälderna till newNode?!!:S
+     //   root=addBalance(newNode,newNode.getParent());
+         
         }    
         size++;
-       if(data==10){
-        	//För dubbelrotation .tex 6-11-10 mönster höger,höger,vänster
-        	TreeNode ten=find(10);
-        	TreeNode eleven=ten.getParent();
-        	TreeNode six= eleven.getParent();
-        	
-        	System.out.println(ten.getData()+", "+eleven.getData()+", "+six.getData());
-        	System.out.println();
-        	printTree();
-        
-        	six.setRight(ten);
-        	ten.setParent(six);
-        	ten.setRight(eleven);
-        	eleven.setParent(ten);
-        	eleven.setLeft(null);
-        	
-        	rotateLeft(eleven);
-
-        	
-        }
-        if(data==2){
-        	//För dubbelrotation .tex 3-1-2 mönster vänster vänster,höger
-        	TreeNode two=find(2);
-        	TreeNode one=two.getParent();
-        	TreeNode three= one.getParent();
-        	
-        //	rotateRight(two);
-        	two.setLeft(one);
-        	two.setParent(three);
-        	three.setLeft(two);
-        	one.setParent(two);
-        	one.setRight(null);
-        	rotateRight(one);
-        }
+       
+//       if(data==11){
+//        	//För dubbelrotation .tex 6-11-10 mönster höger,höger,vänster
+//    	  
+//    	 //  addBalance(newNode.getParent(),newNode);
+//    	   	TreeNode ten=find(11);
+////        	TreeNode eleven=ten.getParent();
+////        	TreeNode six= eleven.getParent();
+////        	
+////        	System.out.println(ten.getData()+", "+eleven.getData()+", "+six.getData());
+////        	System.out.println();
+////        	printTree();
+////        
+////        	six.setRight(ten);
+////        	ten.setParent(six);
+////        	ten.setRight(eleven);
+////        	eleven.setParent(ten);
+////        	eleven.setLeft(null);
+//        	
+//        	root=rotateLeft(ten);
+//
+//        	
+//        }
+//        if(data==2){
+//        	//För dubbelrotation .tex 3-1-2 mönster vänster vänster,höger
+////        	TreeNode two=find(2);
+////        	TreeNode one=two.getParent();
+////        	TreeNode three= one.getParent();
+////        	
+////        //	rotateRight(two);
+////        	two.setLeft(one);
+////        	two.setParent(three);
+////        	three.setLeft(two);
+////        	one.setParent(two);
+////        	one.setRight(null);
+////        	rotateRight(one);
+//        }
       
     }
     public int getSize(){
@@ -118,14 +123,14 @@ public class AvlTree {
 
    
     
-    public TreeNode insert(TreeNode current,TreeNode newNode, int value){
+    public void insert(TreeNode current,TreeNode newNode, int value){
     	
     	TreeNode right=	current.getRight();
     	TreeNode left=	current.getLeft();
     	
     	if(current.getData()==value){
     		System.out.println("Värdet finns redan");
-    		return current;
+    	//return current;
     	}
 		else if(value<current.getData()){
 				if(left==null){
@@ -133,9 +138,9 @@ public class AvlTree {
 					newNode.setParent(current);
 					System.out.println("InsertVärde:"+newNode.getData());
 					
-					return addBalance(newNode,current);
+					addBalance(newNode,current);
 					
-//					return current;
+					//return current;
 			}else{
 				 insert(left,newNode,value);
 			}
@@ -146,19 +151,19 @@ public class AvlTree {
 				newNode.setParent(current);
 				System.out.println("InsertVärde:"+newNode.getData());
 				
-			return	addBalance(newNode,current);
+				addBalance(newNode,current);
 				
-//				return current;
+			//	return current;
 		
 			}else{
 				insert(right,newNode,value);
 			}			
 		}
-			return current;
+		//	return current;
     }
     
-    public TreeNode addBalance(TreeNode node,TreeNode parent){
-    	
+    public void addBalance(TreeNode node,TreeNode parent){
+    	TreeNode x=null;
     	if(parent!=null){
     		
     	if(node==parent.getLeft()){
@@ -169,7 +174,25 @@ public class AvlTree {
     		if( parent.getBalance() == -2 ){
     	//		rotateRight(node);  
     			System.out.println("BALANS -2!!!******");
+    			if(node.getLeft()!=null) {	
+    				System.out.println(node.getData()+"RoteringRight sker V**");
+    				x=rotateRight(node.getLeft()); 
+    				
+    			//	return parent;
+    			}
+    		
+    		else{
+    			System.out.println(node.getData()+" RoteringRight sker H**");
+    			x=rotateRight(node.getRight()); 
     		}
+    			
+				if(x.getParent()==null){
+				root=x; 
+				}else{
+					parent=x;
+				}
+    		}
+    	
     	}
     	else if(node==parent.getRight()){
     		parent.addBalance(1);
@@ -178,26 +201,35 @@ public class AvlTree {
     		System.out.println("BALANS +2!!!******");
     			if(node.getLeft()!=null) {	
     				System.out.println(node.getData()+"RoteringLeft sker V**");
-    				parent=rotateLeft(node.getLeft()).getParent(); 
-    				
-    				return parent;
+    				x=rotateLeft(node.getLeft());
+    			//	return parent;
     			}
     		
     		else{
     			System.out.println(node.getData()+" RoteringLeft sker H**");
-    			parent=rotateLeft(node.getRight()).getParent(); 
-    			return parent;
+    			x=rotateLeft(node.getRight()); 
+    			
+    		//	return parent;
     		}
+    			
 //    		parent.resetBalance();	//?
 //    		node.resetBalance();	//?
+    			
+				if(x.getParent()==null){
+				root=x; 
+				}else{
+					parent=x;
+				}
     	}
     	}
     	
+    	
+    	
+    	}
+    	if(parent.getParent()!=null){
     	addBalance(parent,parent.getParent()); //fortsätt upp i trädet.
-    	
     	}
-    	
-    	return node;
+    //	return root;
     }
     
     public TreeNode rotateLeft(TreeNode   c){
@@ -213,8 +245,7 @@ public class AvlTree {
     	System.out.println("C: "+c.getData()+",B: "+b.getData()+", A:"+a.getData()+", AR:"+a.getRight().getData()
     		);
     	
-    	System.out.println("Förälder: "+b.getData()+" FöräldersFörälder: "+a.getData()+
-    			" FÖräldersblivandeHöger: ");
+    	
     	
     	  b.setLeft(a);
     	  b.setParent(aParent);
@@ -231,9 +262,10 @@ public class AvlTree {
     	System.out.println("C: "+c.getData()+",B: "+b.getData()+", A:"+a.getData()+", BR:"+b.getRight().getData()+
     			",BL:"+b.getLeft().getData());
     	
-    	return c;
+    	a.resetBalance();
+    	return b;
     }
-    public void rotateRight(TreeNode a){
+    public TreeNode rotateRight(TreeNode a){
     	
     	System.out.println("**Rotate Right**");
     	
@@ -259,13 +291,13 @@ public class AvlTree {
     	a.setParent(  b);
     	c.setLeft(cLeft);
     	
-    	
+    	return b;
     }
     
     public TreeNode find(int value){
     	TreeNode findNode=find(value,root);
     	if(findNode!=null){
-    		System.out.println("Värdet '"+value+"' hittades.");
+    		System.out.println("Värdet '"+findNode.getData()+"' hittades.");
     	}else{
     		System.out.println("Värdet '"+value+"' hittades inte.");
     	}
