@@ -10,11 +10,11 @@ public class TestAVL {
 				System.out.println();
 		at.inOrder(at.getRoot());
 		System.out.println();
-		at.add(10);
-		at.add(3);
-		at.add(1);
-		
-		at.add(2);
+//		at.add(10);
+//		at.add(3);
+//		at.add(1);
+//		
+//		at.add(2);
 		
 		System.out.println();
 		at.inOrder(at.getRoot());
