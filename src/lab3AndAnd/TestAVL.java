@@ -4,7 +4,7 @@ public class TestAVL {
 	
 	public static void main(String []args){
 		AvlTree at=new AvlTree();
-		for(int i=0;i<10;i+=2){
+		for(int i=0;i<20;i+=2){
 			at.add(i);
 		}
 //		at.add(4);
