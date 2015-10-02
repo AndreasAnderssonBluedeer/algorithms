@@ -20,35 +20,34 @@ public class AvlTree {
         	TreeNode eleven=ten.getParent();
         	TreeNode six= eleven.getParent();
         	
+        	System.out.println(ten.getData()+", "+eleven.getData()+", "+six.getData());
+        	System.out.println();
+        	printTree();
+        
+        	six.setRight(ten);
+        	ten.setParent(six);
         	ten.setRight(eleven);
-        	ten.setLeft(six);
-        	ten.setParent(six.getParent());
-        	
-        	eleven.setLeft(null);
-        	eleven.setRight(null);
         	eleven.setParent(ten);
+        	eleven.setLeft(null);
         	
-        	six.setParent(ten);
-        	six.setRight(null);
-        	six.setLeft(null);
+        	rotateLeft(eleven);
+
         	
-        if(	six.getParent().getLeft()==six){
-        	six.getParent().setLeft(ten);
-        }else{
-        	six.getParent().setRight(ten);
         }
-        	
-        //	test.getParent().setRight(test);
-        	//test.getParent().setLeft(null);
-        	//rotateLeft(test);
-        }/*
         if(data==2){
         	//För dubbelrotation .tex 3-1-2 mönster vänster vänster,höger
-        	TreeNode test=find(2);
-        	test.getParent().setLeft(test);
-        	test.getParent().setRight(null);
-        	rotateRight(test);
-        }*/
+        	TreeNode two=find(2);
+        	TreeNode one=two.getParent();
+        	TreeNode three= one.getParent();
+        	
+        //	rotateRight(two);
+        	two.setLeft(one);
+        	two.setParent(three);
+        	three.setLeft(two);
+        	one.setParent(two);
+        	one.setRight(null);
+        	rotateRight(one);
+        }
       
     }
     public int getSize(){

@@ -7,8 +7,7 @@ public class TestAVL {
 		at.add(4);
 		at.add(6);
 		at.add(11);
-		at.printTree();
-		System.out.println();
+				System.out.println();
 		at.inOrder(at.getRoot());
 		System.out.println();
 		at.add(10);
