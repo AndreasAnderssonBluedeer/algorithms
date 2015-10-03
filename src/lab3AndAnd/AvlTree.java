@@ -248,44 +248,60 @@ public class AvlTree {
   	 }
 
 
-    public TreeNode rotateLeft(TreeNode node){	//FÖRÄNDRA
-    	System.out.println("Roterar Vänster: "+node.getData());
-    	TreeNode p=node.getParent();
-    	TreeNode pp=p.getParent();
-    	
-    	node.setParent(pp);
-    	p.setParent(node);
-    	if(pp!=null){
-    	if(pp.getLeft()==p){
-    		pp.setLeft(node);
-    	}else{
-    		pp.setRight(node);
-    	}
-    	}
-    	p.setRight(node.getLeft());
-    	node.setLeft(p);
-    	
-    	return node;
+    public TreeNode rotateLeft(TreeNode n){	//FÖRSTÅ
+    	System.out.println("Roterar Vänster: "+n.getData());
+    	TreeNode v = n.getRight();
+  	  v.setParent(n.getParent());
+  	  
+  	  n.setRight(v.getLeft());
+  	  
+  	  if(n.getRight()!=null) {
+  	   n.getRight().setParent(n);
+  	  }
+  	  
+  	  v.setLeft(n);
+  	  n.setParent(v);
+  	  
+  	  if(v.getParent()!=null) {
+  	   if(v.getParent().getRight()==n) {
+  	    v.getParent().setRight(v);
+  	   } else if(v.getParent().getLeft()==n) {
+  	    v.getParent().setLeft(v);
+  	   }
+  	  }
+  	  
+  	  setBalance(n);
+  	  setBalance(v);
+  	  
+  	  return v;
     }
-    public TreeNode rotateRight(TreeNode node){		//FÖrändra till barns struktur ist för FÖrälder.
-    	System.out.println("Roterar Höger: "+node.getData());
-    	TreeNode p=node.getParent();
-    	TreeNode pp=p.getParent();
-    	
-    	node.setParent(pp);
-    	p.setParent(node);
-    	
-    	if(pp!=null){
-    	if(pp.getLeft()==p){
-    		pp.setLeft(node);
-    	}else{
-    		pp.setRight(node);
-    	}
-    	}
-    	p.setLeft(node.getRight());
-    	node.setRight(p);
-    	
-    	return node;
+    public TreeNode rotateRight(TreeNode n){		//FÖrändra till barns struktur ist för FÖrälder.
+    	System.out.println("Roterar Höger: "+n.getData());
+    	  TreeNode v = n.getLeft();
+    	  v.setParent(n.getParent());
+    	  
+    	  n.setLeft(v.getRight());
+    	  
+    	  if(n.getLeft()!=null) {
+    	   n.getLeft().setParent(n);
+    	  }
+    	  
+    	  v.setRight(n);
+    	  n.setParent(v);
+    	  
+    	  
+    	  if(v.getParent()!=null) {
+    	   if(v.getParent().getRight()==n) {
+    	    v.getParent().setRight(v);
+    	   } else if(v.getParent().getLeft()==n) {
+    	    v.getParent().setLeft(v);
+    	   }
+    	  }
+    	  
+    	  setBalance(n);
+    	  setBalance(v);
+    	  
+    	  return v;
     }
 
     public TreeNode doubleRotateRightLeft(TreeNode u) {	//FÖrstå
