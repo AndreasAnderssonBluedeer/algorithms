@@ -6,19 +6,15 @@ public class AvlTree {
     private int size;
     private TreeNode root;  
    
-    public void add(int data){	
+    public void add(int data){	//OK
         TreeNode newNode= new TreeNode(data); //skapa en ny node
-        if(root==null){
-        	root=newNode;
-        }else{
+     
          insert(root,newNode,data);	//Sätter inte förälderna till newNode?!!:S
-        }    
-        size++;
-       
+           
+         size++;
 
-      
     }
-    public int getSize(){
+    public int getSize(){		//OK
     	return size;
     }
     public void delete(int data){
@@ -83,51 +79,44 @@ public class AvlTree {
     		 	
     		
     }
-
    
-    
-    public void insert(TreeNode current,TreeNode newNode, int value){
+    public void insert(TreeNode current,TreeNode newNode, int value){	//OK
+    	
+    	if(current==null){
+    		root=newNode;
+    	}else{
     	
     	TreeNode right=	current.getRight();
     	TreeNode left=	current.getLeft();
     	
-    	if(current.getData()==value){
-    		System.out.println("Värdet finns redan");
-    	//return current;
-    	}
-		else if(value<current.getData()){
-				if(left==null){
-					System.out.println("InsertVärde:"+newNode.getData());
-					printTree();
-					balance(newNode,current);
-					newNode.addHeightL();
+    	
+		if(value<current.getData()){
+				if(left==null){	
 					current.setLeft(newNode);	
 					newNode.setParent(current);
-					printTree();
+					
+					balance(newNode,current);
 
-					//return current;
 			}else{
 				 insert(left,newNode,value);
 			}
 		}
 		else if(value>current.getData()){
-			if(right==null){
-
-				System.out.println("InsertVärde:"+newNode.getData());
-				printTree();
-				balance(newNode,current);
-				newNode.addHeightR();
+			if(right==null){				
 				newNode.setParent(current);	
 				current.setRight(newNode);	
 				
-
-			//	return current;
-		
+				balance(newNode,current);
+				
 			}else{
 				insert(right,newNode,value);
-			}			
+			}
 		}
-		//	return current;
+		else{
+			System.out.println("Värdet '"+value+"' finns redan");
+		}
+	}
+		
     }
     
     public void addBalance(TreeNode node,TreeNode parent){
