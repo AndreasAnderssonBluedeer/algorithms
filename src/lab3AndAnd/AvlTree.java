@@ -1,5 +1,7 @@
 package lab3AndAnd;
 
+import avlDemo.AvlNode;
+
 public class AvlTree {
 
 
@@ -17,7 +19,7 @@ public class AvlTree {
     public int getSize(){		//OK
     	return size;
     }
-    public void delete(int data){
+    public void delete(int data){	//OK
        remove(root, data); //hämta den nya Roten
         
     }
@@ -95,7 +97,7 @@ public class AvlTree {
 					current.setLeft(newNode);	
 					newNode.setParent(current);
 					
-					balance(newNode,current);
+					balance(current);
 
 			}else{
 				 insert(left,newNode,value);
@@ -106,7 +108,7 @@ public class AvlTree {
 				newNode.setParent(current);	
 				current.setRight(newNode);	
 				
-				balance(newNode,current);
+				balance(current);
 				
 			}else{
 				insert(right,newNode,value);
@@ -190,112 +192,63 @@ public class AvlTree {
     }
     
     //TEST BALANCE-METOD!!!
-    public void balance(TreeNode n,TreeNode p){
+    public void balance(TreeNode cur){	//balance(TreeNode n,TreeNode p)
     	
-    	do{
-    		
-    		  // balance_factor(P) has not yet been updated!
-    		   if (n == p.getLeft()) { // the left subtree increases
-    		     if (p.getBalance() == 1) { // The left column in the picture
-    		       // ==> the temporary balance_factor(P) == 2 ==> rebalancing is required.
-    		       if (n.getBalance() == -1) { // Left Right Case
-    		    	   rotateLeft(n); // Reduce to Left Left Case
-    		       }
-    		       // Left Left Case
-    		       root=rotateRight(p);
-    		       break; // Leave the loop
-    		     }
-    		     if (p.getBalance() == -1) {
-    		       p.setBalance(0); // N’s height increase is absorbed at P.
-    		       break; // Leave the loop
-    		     }
-    		     p.setBalance(1); // Height increases at P
-    		   } else if (n==p.getRight()) { // N == right_child(P), the child whose height increases by 1.
-    		     if (p.getBalance() == -1) { // The right column in the picture
-    		       // ==> the temporary balance_factor(P) == -2 ==> rebalancing is required.
-    		       if (n.getBalance() == 1) { // Right Left Case
-    		    	   rotateRight(n); // Reduce to Right Right Case
-    		       }
-    		       // Right Right Case
-    		       System.out.println(p.getData());
-    		       root= rotateLeft(p);
-    		       break; // Leave the loop
-    		     }
-    		     if (p.getBalance() == 1) {
-    		      	p.setBalance(0); // N’s height increase is absorbed at P.
-    		       break; // Leave the loop
-    		     }
-    		     p.setBalance(-1); // Height increases at P
+    	setBalance(cur);
+    	int balance = cur.getBalance();
+    	
+    	
+    	 if(balance==-2) {
+    		   
+    		   if(height(cur.getLeft().getLeft())>=height(cur.getLeft().getRight())) {
+    		    cur = rotateRight(cur);
+    		   } else {
+    		    cur = doubleRotateLeftRight(cur);
     		   }
-    		   n=p;
-    		   p = n.getParent();
-    		
-    	}while(p!=null);
-    	
+    		  } else if(balance==2) {
+    		   if(height(cur.getRight().getRight())>=height(cur.getRight().getLeft())) {
+    		    cur = rotateLeft(cur);
+    		   } else {
+    		    cur = doubleRotateRightLeft(cur);
+    		   }
+    		  }
+    		  
+    		  // we did not reach the root yet
+    		  if(cur.getParent()!=null) {
+    		   balance(cur.getParent());	//recursiveBalance
+    		  } else {
+    		   this.root = cur;
+    		   System.out.println("------------ Balancing finished ----------------");
+    		  }
     }
-//    public TreeNode rotateLeft(TreeNode   c){
-//    	
-//    	System.out.println("**Rotate Left** "+c.getData());
-//    	
-//    	TreeNode b=  c.getParent();
-//    	System.out.println(b.getData());
-//    	
-//    	TreeNode a=b.getParent();
-//    	TreeNode aRight=  b.getLeft();
-//    	TreeNode aParent=a.getParent();
-//    	System.out.println("C: "+c.getData()+",B: "+b.getData()+", A:"+a.getData()+", AR:"+a.getRight().getData()
-//    		);
-//    	
-//    	
-//    	
-//    	  b.setLeft(a);
-//    	  b.setParent(aParent);
-//    	if(aParent!=null){
-//    	if(aParent.getLeft()==a){
-//    		aParent.setLeft(  b);
-//    	}
-//    	else{
-//    		aParent.setRight(  b);
-//    	}
-//    	}
-//    	a.setParent(  b);
-//    	a.setRight(aRight);
-//    	System.out.println("C: "+c.getData()+",B: "+b.getData()+", A:"+a.getData()+", BR:"+b.getRight().getData()+
-//    			",BL:"+b.getLeft().getData());
-//    	
-//    	a.resetBalance();
-//    	return b;
-//    }
-//    public TreeNode rotateRight(TreeNode a){
-//    	
-//    	System.out.println("**Rotate Right**");
-//    	
-//    	TreeNode b=  a.getParent();
-//    	System.out.println(b.getData());
-//    	
-//    	TreeNode c=b.getParent();
-//    	TreeNode cLeft=  b.getRight();
-//    	TreeNode cParent=c.getParent();
-//    	
-//    	System.out.println("Förälder: "+b.getData()+" FöräldersFörälder: "+a.getData()+
-//    			" FÖräldersblivandeHöger: ");
-//    	
-//    	  b.setRight(c);
-//    	  b.setParent(cParent);
-//    	
-//    	if(cParent.getLeft()==c){
-//    		cParent.setLeft(  b);
-//    	}
-//    	else{
-//    		cParent.setRight(  b);
-//    	}
-//    	a.setParent(  b);
-//    	c.setLeft(cLeft);
-//    	
-//    	return b;
-//    }
-//    
-    public TreeNode rotateLeft(TreeNode node){
+    private void setBalance(TreeNode node) {	//OK
+  	  node.setBalance(height(node.getRight())-height(node.getLeft())) ;
+  	 }
+    private int height(TreeNode cur) {	//Förstå
+  	  if(cur==null) {
+  	   return -1;
+  	  }
+  	  if(cur.getLeft()==null && cur.getRight()==null) {	
+  	   return 0;
+  	  } else if(cur.getLeft()==null) {
+  	   return 1+height(cur.getRight());
+  	  } else if(cur.getRight()==null) {
+  	   return 1+height(cur.getLeft());
+  	  } else {
+  	   return 1+maximum(height(cur.getLeft()),height(cur.getRight()));
+  	  }
+  	 }
+    
+    private int maximum(int a, int b) {	//Förstå
+  	  if(a>=b) {
+  	   return a;
+  	  } else {
+  	   return b;
+  	  }
+  	 }
+
+
+    public TreeNode rotateLeft(TreeNode node){	//FÖRÄNDRA
     	System.out.println("Roterar Vänster: "+node.getData());
     	TreeNode p=node.getParent();
     	TreeNode pp=p.getParent();
@@ -314,7 +267,7 @@ public class AvlTree {
     	
     	return node;
     }
-    public TreeNode rotateRight(TreeNode node){
+    public TreeNode rotateRight(TreeNode node){		//FÖrändra till barns struktur ist för FÖrälder.
     	System.out.println("Roterar Höger: "+node.getData());
     	TreeNode p=node.getParent();
     	TreeNode pp=p.getParent();
@@ -335,6 +288,15 @@ public class AvlTree {
     	return node;
     }
 
+    public TreeNode doubleRotateRightLeft(TreeNode u) {	//FÖrstå
+  	  u.setRight(rotateRight(u.getRight()) );
+  	  return rotateLeft(u);
+  	 }
+    public TreeNode doubleRotateLeftRight(TreeNode u) {	//Förstå
+  	  u.setLeft(rotateLeft(u.getLeft()));
+  	  return rotateRight(u);
+  	 }
+    
     public TreeNode find(int value){
     	TreeNode findNode=find(value,root);
     	if(findNode!=null){

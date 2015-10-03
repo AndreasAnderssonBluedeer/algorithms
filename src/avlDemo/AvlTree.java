@@ -14,7 +14,7 @@ public class AvlTree {
 	  * @param k
 	  *            The key of the new node.
 	  */
-	 public void insert(int k) {
+	 public void insert(int k) {	//OK
 	  // create new node
 	  AvlNode n = new AvlNode(k);
 	  // start recursive procedure for inserting the node
@@ -27,7 +27,7 @@ public class AvlTree {
 	  * @param p The node currently compared, usually you start with the root.
 	  * @param q The node to be inserted.
 	  */
-	 public void insertAVL(AvlNode p, AvlNode q) {
+	 public void insertAVL(AvlNode p, AvlNode q) {	//OK
 	  // If  node to compare is null, the node is inserted. If the root is null, it is the root of the tree.
 	  if(p==null) {
 	   this.root=q;
@@ -100,7 +100,7 @@ public class AvlTree {
 	 /**
 	  * Removes a node from the tree, if it is existent.
 	  */
-	 public void remove(int k) {
+	 public void remove(int k) {	//OK
 	  // First we must find the node, after this we can delete it.
 	  removeAVL(this.root,k);
 	 }
@@ -329,7 +329,7 @@ public class AvlTree {
 	  
 	  * @param n The node to write information about.
 	  */
-	 public void debug(AvlNode n) {
+	 public void debug(AvlNode n) {	//Behövs EJ
 	  int l = 0;
 	  int r = 0;
 	  int p = 0;
@@ -384,7 +384,7 @@ public class AvlTree {
 	  io.add(n);
 	  inorder(n.right, io);
 	 }
-	 public void printTree(){
+	 public void printTree(){	//OK
 		 System.out.println();
 		 root.printTree();
 	 }

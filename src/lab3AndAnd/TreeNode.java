@@ -3,7 +3,7 @@ package lab3AndAnd;
 /**
  * Created by Andreas on 2015-09-25.
  */
-public class TreeNode {
+public class TreeNode {	//KLASS-OK
 	private int balance;
     private int data;
     private TreeNode left;
@@ -36,8 +36,7 @@ public class TreeNode {
     	balance=value;
     }
     public int getBalance(){
-//    	return balance=heightL-heightR;
-    	return 0;
+    	return balance;
     }
     public void setData(int data){
 	   this.data=data;
