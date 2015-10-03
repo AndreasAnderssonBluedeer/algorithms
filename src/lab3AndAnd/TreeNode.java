@@ -9,9 +9,17 @@ public class TreeNode {
     private TreeNode left;
     private TreeNode right;
     private TreeNode parent;
+    private int heightL;
+    private int heightR;
     
     public TreeNode (int data){
         this.data=data;
+    }
+    public void addHeightL(){
+    	heightL++;
+    }
+    public void addHeightR(){
+    	heightR++;
     }
     public void resetBalance(){
     	balance=0;
@@ -19,8 +27,11 @@ public class TreeNode {
     public void addBalance(int value){
     	balance+=value;
     }
+    public void setBalance(int value){
+    	balance=value;
+    }
     public int getBalance(){
-    	return balance;
+    	return balance=heightL-heightR;
     }
     public void setData(int data){
 	   this.data=data;
