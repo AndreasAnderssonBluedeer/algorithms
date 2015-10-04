@@ -3,7 +3,8 @@ package lab3AndAnd;
 /**
  * Created by Andreas on 2015-09-25.
  */
-public class TreeNode {	//KLASS-OK kolla metod anrop.
+public class TreeNode {	//KLASS-OK JAVA-DOC kvar.
+	
 	private int balance;
     private int data;
     private TreeNode left;
@@ -11,27 +12,10 @@ public class TreeNode {	//KLASS-OK kolla metod anrop.
     private TreeNode parent;
   
     
-    public TreeNode (int data){
-    	left=null;
-    	right=null;
-    	parent=null;
-    	balance=0;
-    	
+    public TreeNode (int data){    	 	
         this.data=data;
-        
     }
-    public void addHeightL(){
-    	//heightL++;
-    }
-    public void addHeightR(){
-    	//heightR++;
-    }
-    public void resetBalance(){
-    	balance=0;
-    }
-    public void addBalance(int value){
-    	balance+=value;
-    }
+
     public void setBalance(int value){
     	balance=value;
     }
@@ -63,7 +47,7 @@ public class TreeNode {	//KLASS-OK kolla metod anrop.
         return right;
     }
 
-    //Print metoder
+    //Print methods
     public void printTree(){
 
         if(this.right!=null){

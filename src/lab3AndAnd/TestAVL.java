@@ -26,6 +26,8 @@ public class TestAVL {
 	        at.printTree();
 	        System.out.println();
 	        at.inOrder(at.getRoot());
+	        System.out.println();
+	        at.find(3);
 	}
 		
 	
