@@ -10,8 +10,8 @@ public class TestAVL {
 		AvlTree at=new AvlTree();
 		
 		 Random rand=new Random();
-	        int[] array=new int[20];
-	        for(int i=0;i<20;i++){
+	        int[] array=new int[50];
+	        for(int i=0;i<50;i++){
 	        	int b=rand.nextInt(100);
 	        	array[i]=b;
 				at.add(b);

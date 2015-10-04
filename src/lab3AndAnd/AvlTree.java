@@ -15,9 +15,11 @@ public class AvlTree {		//Skriv ut meddelanden, JAVA-DOC kvar
          size++;
 
     }
+    
     public int getSize(){		//OK
     	return size;
     }
+   
     public void delete(int data){	//OK
        remove(root, data); 
        System.out.println("Delete '"+data+"' complete.");
