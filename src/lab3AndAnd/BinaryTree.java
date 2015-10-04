@@ -2,14 +2,21 @@ package lab3AndAnd;
 
 /**
  * Created by Andreas on 2015-09-25.
+ * Creates a BinaryTree by using the TreeNode class. Allows the user to Add/insert TreeNodes,Delete
+ * ,find/Search, print the tree, get number of nodes in the entire tree, print the keyValues in order by number.
  */
 public class BinaryTree {
 
     private int size;
     private TreeNode root;  
    
-    public void add(int data){
-        TreeNode newNode= new TreeNode(data); //skapa en ny node
+    /**
+     * Adds and creates a new TreeNode to the BinaryTree with the given parameter "data"
+     * as the new nodes Key/Value.
+     * @param data -Key value for the new TreeNode
+     */
+	public void add(int data) {
+        TreeNode newNode= new TreeNode(data); 
         if(root==null){
         	root=newNode;
         }else{
@@ -17,75 +24,90 @@ public class BinaryTree {
         }    
         size++;
     }
-    public int getSize(){
+  
+    /**
+     * Returns the number of nodes in the BinaryTree.
+     * @return int
+     */
+	public int getSize() {
     	return size;
     }
-    public void delete(int data){
-       remove(root, data); //hämta den nya Roten
+    
+    /**
+     * Deletes the TreeNode with the given int:Data as key.
+     * Uses the Remove-method.
+     * @param data -key to TreeNode.
+     */
+	public void delete(int data) {
+       remove(root, data); 
         
     }
     
+    /**
+     * Receives a key and a TreeNode to compare the key to.
+     * If the key and TreeNode matches- the TreeNode will be removed.
+     * 
+     * @param current	-TreeNode to compare key/dataToRemove to.
+     * @param dataToRemove -Key to TreeNode to be removed.
+     */
     public void remove(TreeNode current, int dataToRemove){
     	
-    		TreeNode nodeRemove=find(dataToRemove,current);
-    		
-    		
-    		if(nodeRemove!=null){	//Om noden som ska tas bort finns
-    			
-    			TreeNode parent=nodeRemove.getParent();
-    			TreeNode right=nodeRemove.getRight();
-    			TreeNode left=nodeRemove.getLeft();
-    			
-	    			if(right==null && left==null){	//Har noden inga barn
-	    				
-	    				if(parent.getLeft()==nodeRemove){	//Kolla om det är den vänstra noden
-	    					parent.setLeft(null);			//Sätt värdet till NULL- nod raderad
-	    				}
-	    				else if(parent.getRight()==nodeRemove){	//Kolla om det är den högra noden
-	    					parent.setRight(null);				//Sätt värdet till NULL- nod raderad
-	    				}
-	    				size--;
-	    				
-	    			}
-	    			else if(right==null){	//Om noden har barn, har den endast ett vänster barn?
-	    				if(parent.getLeft()==nodeRemove){
-	    					parent.setLeft(left);
-	    				}
-	    				else if(parent.getRight()==nodeRemove){
-	    					parent.setRight(left);
-	    				}
-	    					
-	    					size--;
-	    			}
-	    			else if(left==null){	//Om noden har barn, har den endast ett höger barn?
-	    				if(parent.getLeft()==nodeRemove){	//Är noden förälderns höger eller vänster barn?
-	    					parent.setLeft(right);
-	    				}
-	    				else if(parent.getRight()==nodeRemove){
-	    					parent.setRight(right);
-	    				}
-	    				size--;
-    				
-	    			}
-	    			else {
-	    				while(left.getLeft()!=null){ //Hitta vänstraste "högervärde"
-	    				left=left.getLeft();	
-	    				}
-	    				delete(left.getData());
-	    				nodeRemove.setData(left.getData());	  	
-	    				
-	    			}
-    						
-    		}
-    		
-		
-    		 	
-    		
-    }
+		TreeNode nodeRemove = find(dataToRemove, current);
 
-  
-    
-    public TreeNode insert(TreeNode current,TreeNode newNode, int value){
+		if (nodeRemove != null) {
+
+			TreeNode parent = nodeRemove.getParent();
+			TreeNode right = nodeRemove.getRight();
+			TreeNode left = nodeRemove.getLeft();
+
+			if (right == null && left == null) {
+
+				if (parent.getLeft() == nodeRemove) {
+					parent.setLeft(null);
+				} else if (parent.getRight() == nodeRemove) {
+					parent.setRight(null);
+				}
+				size--;
+
+			} else if (right == null) {
+				if (parent.getLeft() == nodeRemove) {
+					parent.setLeft(left);
+				} else if (parent.getRight() == nodeRemove) {
+					parent.setRight(left);
+				}
+
+				size--;
+			} else if (left == null) {
+				if (parent.getLeft() == nodeRemove) {
+					parent.setLeft(right);
+				} else if (parent.getRight() == nodeRemove) {
+					parent.setRight(right);
+				}
+				size--;
+
+			} else {
+				while (left.getLeft() != null) {
+					left = left.getLeft();
+				}
+				delete(left.getData());
+				nodeRemove.setData(left.getData());
+
+			}
+
+		}
+
+	}
+
+    /**
+     * Inserts the newNode into the Binarytree when it finds the right position.
+     * Current is used to compare to value to find the right location. 
+     * Returns newNodes parent.
+     * @param current -TreeNode to compare to.
+     * @param newNode -TreeNode to insert.
+     * @param value -int with NewNodes value/Key.
+     * @return TreeNode
+     */
+	public TreeNode insert(TreeNode current, TreeNode newNode, int value) {
     	
     	TreeNode right=	current.getRight();
     	TreeNode left=	current.getLeft();
@@ -116,48 +138,70 @@ public class BinaryTree {
 			return current;
     }
     
-   
-    public void find(int value){
-    	TreeNode findNode=find(value,root);
-    	if(findNode!=null){
-    		System.out.println("Värdet '"+value+"' hittades.");
-    	}else{
-    		System.out.println("Värdet '"+value+"' hittades inte.");
-    	}
-    }	
-    public TreeNode find(int key, TreeNode node){
-    		
-    		if(node==null || node.getData()==key){
+   /**
+    * Search method for a specific TreeNode. Uses Value as Key
+    * to find it.
+    * @param value -key to the TreeNode to be Found
+    */
+	public void find(int value) {
+		TreeNode findNode = find(value, root);
+		if (findNode != null) {
+			System.out.println("Värdet '" + value + "' hittades.");
+		} else {
+			System.out.println("Värdet '" + value + "' hittades inte.");
+		}
+	}
+	
+	/**
+	 * A search Method to find a Specific TreeNode by a Key and a TreeNode to 
+	 * compare the Key to. If there is a Match- Return the "Found" TreeNode.
+	 * @param key -Key to the Searched TreeNode
+	 * @param node	- TreeNode for comparison.
+	 * @return
+	 */
+	public TreeNode find(int key, TreeNode node) {
 
-    			return node;
-    		}
-    		else if(key<node.getData()){
-    			return find(key,node.getLeft());
-    		}
-    		else if(key>node.getData()){
-    			return find(key,node.getRight());
-    		}
-    		else{
-    			return null;
-    		}
-    		   
-    }
+		if (node == null || node.getData() == key) {
 
-    public void inOrder(TreeNode node){
-    	if(node!=null){
-        inOrder(node.getLeft());
-        System.out.print(node.getData()+", ");
-        inOrder(node.getRight());
-    	}
-    	
+			return node;
+		} else if (key < node.getData()) {
+			return find(key, node.getLeft());
+		} else if (key > node.getData()) {
+			return find(key, node.getRight());
+		} else {
+			return null;
+		}
 
-    }
-    public TreeNode getRoot(){
-        return root;
-    }
-    public void printTree(){ //skriver ut en visualisering utav trädet.
-    	
-        root.printTree();
+	}
 
-    }
+	/**
+	 * Prints the whole trees keyvalues in order. Takes a node as parameter to get the
+	 * next value(s)
+	 * @param node -TreeNode to get Values.
+	 */
+	public void inOrder(TreeNode node) {
+		if (node != null) {
+			inOrder(node.getLeft());
+			System.out.print(node.getData() + ", ");
+			inOrder(node.getRight());
+		}
+
+	}
+
+	/**
+	 * Returns the BinaryTrees Root.
+	 * @return TreeNode
+	 */
+	public TreeNode getRoot() {
+		return root;
+	}
+
+	/**
+	 * Prints the entire BinaryTree in the Console.
+	 */
+	public void printTree() { 
+
+		root.printTree();
+
+	}
 }
