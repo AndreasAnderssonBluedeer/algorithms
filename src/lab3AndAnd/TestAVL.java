@@ -12,9 +12,9 @@ public class TestAVL {
 		 Random rand=new Random();
 	        int[] array=new int[20];
 	        for(int i=0;i<20;i++){
-	        	//int b=rand.nextInt(100);
-	        	array[i]=i;
-				at.add(i);
+	        	int b=rand.nextInt(100);
+	        	array[i]=b;
+				at.add(b);
 				
 			}
 	        System.out.println("Insert-ordning");
@@ -22,8 +22,10 @@ public class TestAVL {
 	        System.out.print(array[i]+", ");
 	        }
 	        at.printTree();
-	        at.delete(7);
+	        at.delete(array[5]);
 	        at.printTree();
+	        System.out.println();
+	        at.inOrder(at.getRoot());
 	}
 		
 	

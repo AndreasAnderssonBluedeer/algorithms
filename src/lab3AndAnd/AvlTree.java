@@ -1,6 +1,6 @@
 package lab3AndAnd;
 
-import avlDemo.AvlNode;
+
 
 public class AvlTree {		//Allting fungerar. Skriv ut meddelanden, optimera koden, namnge variabler+kommentera.
 
@@ -21,7 +21,7 @@ public class AvlTree {		//Allting fungerar. Skriv ut meddelanden, optimera koden
     }
     public void delete(int data){	//OK
        remove(root, data); 
-       System.out.println("Delete complete.");
+       System.out.println("Delete '"+data+"' complete.");
         
     }
     
@@ -142,39 +142,45 @@ public class AvlTree {		//Allting fungerar. Skriv ut meddelanden, optimera koden
     
     
    
-    public void balance(TreeNode cur){	//Förstå /Strukturera om.
+    public void balance(TreeNode node){	//	OK
     	
-    	setBalance(cur);
-    	int balance = cur.getBalance();
+    	setBalance(node);
+    	int balance = node.getBalance();
     	
     	
     	 if(balance==-2) {
+    		 TreeNode nodeLeft=node.getLeft();
     		   
-    		   if(height(cur.getLeft().getLeft())>=height(cur.getLeft().getRight())) {
-    		    cur = rotateRight(cur);
+    		   if(height(nodeLeft.getLeft())>=height(nodeLeft.getRight())) {
+    		    node = rotateRight(node);
     		   } else {
-    		    cur = doubleRotateLeftRight(cur);
+    			   node.setLeft(rotateLeft(nodeLeft));    			  	 
+    			   node = rotateRight(node);
     		   }
     		  } else if(balance==2) {
-    		   if(height(cur.getRight().getRight())>=height(cur.getRight().getLeft())) {
-    		    cur = rotateLeft(cur);
+    			  TreeNode nodeRight=node.getRight();
+    		   if(height(nodeRight.getRight())>=height(nodeRight.getLeft())) {
+    		    node = rotateLeft(node);
     		   } else {
-    		    cur = doubleRotateRightLeft(cur);
+    			   node.setRight(rotateRight(nodeRight) );   			  	 
+    			   node = rotateLeft(node);;
     		   }
     		  }
     		  
-    		  // we did not reach the root yet
-    		  if(cur.getParent()!=null) {
-    		   balance(cur.getParent());	
+    		 
+    		  if(node.getParent()!=null) {
+    		   balance(node.getParent());	
     		  } else {
-    		   this.root = cur;
-    		   System.out.println("------------ Balancing finished ----------------");
+    		   this.root = node;
+    		   System.out.println("****Balansering Genomförd****");
     		  }
     }
+    
     private void setBalance(TreeNode node) {	//OK
   	  node.setBalance(height(node.getRight())-height(node.getLeft())) ;
   	 }
-    private int height(TreeNode node) {	//Förstå
+    
+    private int height(TreeNode node) {	//OK
   	 
     	
       if(node==null) {	
@@ -194,85 +200,88 @@ public class AvlTree {		//Allting fungerar. Skriv ut meddelanden, optimera koden
   	   return 1+height(left);
   	  } 
   	  else {
-  	   return 1+maximum(height(left),height(right));
+  	   return 1+heighest(height(left),height(right));
   	  }
   	 }
     
-    private int maximum(int a, int b) {	//Förstå
-  	  if(a>=b) {
-  	   return a;
+    private int heighest(int left, int right) {	//OK
+  	  if(left>=right) {
+  	   return left;
   	  } else {
-  	   return b;
+  	   return right;
   	  }
   	 }
 
 
-    public TreeNode rotateLeft(TreeNode n){	//FÖRSTÅ
-    	System.out.println("Roterar Vänster: "+n.getData());
-    	TreeNode v = n.getRight();
-  	  v.setParent(n.getParent());
+    public TreeNode rotateLeft(TreeNode node){	//OK
+    	
+    	System.out.println("Roterar Vänster: "+node.getData());
+    	
+    	TreeNode nRight = node.getRight();
+    	nRight.setParent(node.getParent());
+    	TreeNode nRP= nRight.getParent();
   	  
-  	  n.setRight(v.getLeft());
+  	  node.setRight(nRight.getLeft());
   	  
-  	  if(n.getRight()!=null) {
-  	   n.getRight().setParent(n);
+  	  TreeNode newNR=node.getRight();
+  	  
+  	  if(newNR!=null) {
+  	   newNR.setParent(node);
   	  }
   	  
-  	  v.setLeft(n);
-  	  n.setParent(v);
+  	  nRight.setLeft(node);
+  	  node.setParent(nRight);
   	  
-  	  if(v.getParent()!=null) {
-  	   if(v.getParent().getRight()==n) {
-  	    v.getParent().setRight(v);
-  	   } else if(v.getParent().getLeft()==n) {
-  	    v.getParent().setLeft(v);
+  	  if(nRP!=null) {
+  	   if(nRP.getRight()==node) {
+  	    nRP.setRight(nRight);
+  	   } else if(nRP.getLeft()==node) {
+  	    nRP.setLeft(nRight);
   	   }
   	  }
   	  
-  	  setBalance(n);
-  	  setBalance(v);
+  	  setBalance(node);
+  	  setBalance(nRight);
   	  
-  	  return v;
+  	  return nRight;
     }
-    public TreeNode rotateRight(TreeNode n){		//FÖrändra till barns struktur ist för FÖrälder.
-    	System.out.println("Roterar Höger: "+n.getData());
-    	  TreeNode v = n.getLeft();
-    	  v.setParent(n.getParent());
+    public TreeNode rotateRight(TreeNode node){		//OK
+    	
+    	System.out.println("Roterar Höger: "+node.getData());
+    	
+    	  TreeNode left = node.getLeft();
+    	  left.setParent(node.getParent());
     	  
-    	  n.setLeft(v.getRight());
+    	  node.setLeft(left.getRight());
     	  
-    	  if(n.getLeft()!=null) {
-    	   n.getLeft().setParent(n);
+    	  TreeNode nl=node.getLeft();
+    	  
+    	  if(nl!=null) {
+    	   nl.setParent(node);
     	  }
     	  
-    	  v.setRight(n);
-    	  n.setParent(v);
+    	  left.setRight(node);
+    	  node.setParent(left);
     	  
+    	  TreeNode lp =left.getParent();
     	  
-    	  if(v.getParent()!=null) {
-    	   if(v.getParent().getRight()==n) {
-    	    v.getParent().setRight(v);
-    	   } else if(v.getParent().getLeft()==n) {
-    	    v.getParent().setLeft(v);
+    	  if(lp!=null) {
+    	   if(lp.getRight()==node) {
+    		   lp.setRight(left);
+    	   } else if(lp.getLeft()==node) {
+    		   lp.setLeft(left);
     	   }
     	  }
     	  
-    	  setBalance(n);
-    	  setBalance(v);
+    	  setBalance(node);
+    	  setBalance(left);
     	  
-    	  return v;
+    	  return left;
     }
 
-    public TreeNode doubleRotateRightLeft(TreeNode u) {	//FÖrstå
-  	  u.setRight(rotateRight(u.getRight()) );
-  	  return rotateLeft(u);
-  	 }
-    public TreeNode doubleRotateLeftRight(TreeNode u) {	//Förstå
-  	  u.setLeft(rotateLeft(u.getLeft()));
-  	  return rotateRight(u);
-  	 }
-    
-    public TreeNode find(int value){
+   
+    public TreeNode find(int value){		//OK
+    	
     	TreeNode findNode=find(value,root);
     	if(findNode!=null){
     		System.out.println("Värdet '"+findNode.getData()+"' hittades.");
@@ -281,10 +290,10 @@ public class AvlTree {		//Allting fungerar. Skriv ut meddelanden, optimera koden
     	}
     	return findNode;
     }	
-    public TreeNode find(int key, TreeNode node){
+    
+    public TreeNode find(int key, TreeNode node){		//OK
     		
     		if(node==null || node.getData()==key){
-
     			return node;
     		}
     		else if(key<node.getData()){
@@ -299,7 +308,7 @@ public class AvlTree {		//Allting fungerar. Skriv ut meddelanden, optimera koden
     		   
     }
 
-    public void inOrder(TreeNode node){
+    public void inOrder(TreeNode node){		//	OK
     	if(node!=null){
         inOrder(node.getLeft());
         System.out.print(node.getData()+", ");
@@ -308,10 +317,10 @@ public class AvlTree {		//Allting fungerar. Skriv ut meddelanden, optimera koden
     	
 
     }
-    public TreeNode getRoot(){
+    public TreeNode getRoot(){	//OK
         return root;
     }
-    public void printTree(){ //skriver ut en visualisering utav trädet.
+    public void printTree(){ //	OK
     	
         root.printTree();
 
