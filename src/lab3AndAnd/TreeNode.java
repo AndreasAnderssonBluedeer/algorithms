@@ -1,7 +1,7 @@
 package lab3AndAnd;
 
 /**
- * Created by Andreas Andersson, Systemutveckling on 2015-09-25.
+ * Created by @author Andreas Andersson, Systemutveckling on 2015-09-25.
  * 
  * TreeNode is a Node in the Avl-tree that keeps references to 3 other TreeNodes- 1 TreeNode for the 
  * Left Sub-tree, one for the right and one TreeNode for it's "Parent".
