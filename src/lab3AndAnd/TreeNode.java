@@ -3,7 +3,7 @@ package lab3AndAnd;
 /**
  * Created by Andreas on 2015-09-25.
  */
-public class TreeNode {	//KLASS-OK
+public class TreeNode {	//KLASS-OK kolla metod anrop.
 	private int balance;
     private int data;
     private TreeNode left;

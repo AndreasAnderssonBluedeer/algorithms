@@ -2,16 +2,16 @@ package lab3AndAnd;
 
 import avlDemo.AvlNode;
 
-public class AvlTree {
+public class AvlTree {		//Allting fungerar. Skriv ut meddelanden, optimera koden, namnge variabler+kommentera.
 
 
     private int size;
     private TreeNode root;  
    
     public void add(int data){	//OK
-        TreeNode newNode= new TreeNode(data); //skapa en ny node
+        TreeNode newNode= new TreeNode(data); 
      
-         insert(root,newNode,data);	//Sätter inte förälderna till newNode?!!:S
+         insert(root,newNode,data);	
            
          size++;
 
@@ -20,67 +20,85 @@ public class AvlTree {
     	return size;
     }
     public void delete(int data){	//OK
-       remove(root, data); //hämta den nya Roten
+       remove(root, data); 
+       System.out.println("Delete complete.");
         
     }
     
-    public void remove(TreeNode current, int dataToRemove){
-    	
-    		TreeNode nodeRemove=find(dataToRemove,current);
-    		
-    		
-    		if(nodeRemove!=null){	//Om noden som ska tas bort finns
-    			
-    			TreeNode parent=nodeRemove.getParent();
-    			TreeNode right=nodeRemove.getRight();
-    			TreeNode left=nodeRemove.getLeft();
-    			
-	    			if(right==null && left==null){	//Har noden inga barn
-	    				
-	    				if(parent.getLeft()==nodeRemove){	//Kolla om det är den vänstra noden
-	    					parent.setLeft(null);			//Sätt värdet till NULL- nod raderad
-	    				}
-	    				else if(parent.getRight()==nodeRemove){	//Kolla om det är den högra noden
-	    					parent.setRight(null);				//Sätt värdet till NULL- nod raderad
-	    				}
-	    				size--;
-	    				
-	    			}
-	    			else if(right==null){	//Om noden har barn, har den endast ett vänster barn?
-	    				if(parent.getLeft()==nodeRemove){
-	    					parent.setLeft(left);
-	    				}
-	    				else if(parent.getRight()==nodeRemove){
-	    					parent.setRight(left);
-	    				}
-	    					
-	    					size--;
-	    			}
-	    			else if(left==null){	//Om noden har barn, har den endast ett höger barn?
-	    				if(parent.getLeft()==nodeRemove){	//Är noden förälderns höger eller vänster barn?
-	    					parent.setLeft(right);
-	    				}
-	    				else if(parent.getRight()==nodeRemove){
-	    					parent.setRight(right);
-	    				}
-	    				size--;
-    				
-	    			}
-	    			else {
-	    				while(left.getLeft()!=null){ //Hitta vänstraste "högervärde"
-	    				left=left.getLeft();	
-	    				}
-	    				delete(left.getData());
-	    				nodeRemove.setData(left.getData());	  	
-	    				
-	    			}
-    						
-    		}
-    		
-		
-    		 	
-    		
-    }
+    public void remove(TreeNode p,int q) { //FÖRSTÅ, strukturera om.
+  	  if(p==null) {
+  	   // der Wert existiert nicht in diesem Baum, daher ist nichts zu tun
+  	   return;
+  	  } else {
+  	   if(p.getData()>q)  {
+  	    remove(p.getLeft(),q);
+  	   } else if(p.getData()<q) {
+  	    remove(p.getRight(),q);
+  	   } else if(p.getData()==q) {
+  	    // we found the node in the tree.. now lets go on!
+  	    removeFoundNode(p);
+  	   }
+  	  }
+  	 }
+   
+    public void removeFoundNode(TreeNode q) {	//Förstå, strukturera
+  	 TreeNode r;
+  	  // at least one child of q, q will be removed directly
+  	  if(q.getLeft()==null || q.getRight()==null) {
+  	   // the root is deleted
+  	   if(q.getParent()==null) {
+  	    this.root=null;
+  	    q=null;
+  	    return;
+  	   }
+  	   r = q;
+  	  } else {
+  	   // q has two children --> will be replaced by successor
+  	   r = successor(q);
+  	   q.setData(r.getData());
+  	  }
+  	  
+  	  TreeNode p;
+  	  if(r.getLeft()!=null) {
+  	   p = r.getLeft();
+  	  } else {
+  	   p = r.getRight();
+  	  }
+  	  
+  	  if(p!=null) {
+  	   p.setParent(r.getParent());
+  	  }
+  	  
+  	  if(r.getParent()==null) {
+  	   this.root = p;
+  	  } else {
+  	   if(r==r.getParent().getLeft()) {
+  	    r.getParent().setLeft(p);
+  	   } else {
+  	    r.getParent().setRight(p);
+  	   }
+  	   // balancing must be done until the root is reached.
+  	   balance(r.getParent());
+  	  }
+  	  r = null;
+  	 }
+   
+    public TreeNode successor(TreeNode q) {		//FÖRSTÅ
+  	  if(q.getRight()!=null) {
+  	   TreeNode r = q.getRight();
+  	   while(r.getLeft()!=null) {
+  	    r = r.getLeft();
+  	   }
+  	   return r;
+  	  } else {
+  	   TreeNode p = q.getParent();
+  	   while(p!=null && q==p.getRight()) {
+  	    q = p;
+  	    p = q.getParent();
+  	   }
+  	   return p;
+  	  }
+  	 }
    
     public void insert(TreeNode current,TreeNode newNode, int value){	//OK
     	
@@ -121,78 +139,10 @@ public class AvlTree {
 		
     }
     
-    public void addBalance(TreeNode node,TreeNode parent){
-    	TreeNode x=null;
-    	if(parent!=null){
-    		
-    	if(node==parent.getLeft()){
-    	
-    		parent.addBalance(-1);
-    		System.out.println(node.getData()+" Added value -1 to parent with value: "+parent.getData());
-    		
-    		if( parent.getBalance() == -2 ){
-    	//		rotateRight(node);  
-    			System.out.println("BALANS -2!!!******");
-    			if(node.getLeft()!=null) {	
-    				System.out.println(node.getData()+"RoteringRight sker V**");
-    				x=rotateRight(node.getLeft()); 
-    				
-    			//	return parent;
-    			}
-    		
-    		else{
-    			System.out.println(node.getData()+" RoteringRight sker H**");
-    			x=rotateRight(node.getRight()); 
-    		}
-    			
-				if(x.getParent()==null){
-				root=x; 
-				}else{
-					parent=x;
-				}
-    		}
-    	
-    	}
-    	else if(node==parent.getRight()){
-    		parent.addBalance(1);
-    		System.out.println(node.getData()+" Added value +1 to parent with value: "+parent.getData());
-    		if( parent.getBalance() == 2 ){
-    		System.out.println("BALANS +2!!!******");
-    			if(node.getLeft()!=null) {	
-    				System.out.println(node.getData()+"RoteringLeft sker V**");
-    				x=rotateLeft(node.getLeft());
-    			//	return parent;
-    			}
-    		
-    		else{
-    			System.out.println(node.getData()+" RoteringLeft sker H**");
-    			x=rotateLeft(node.getRight()); 
-    			
-    		//	return parent;
-    		}
-    			
-//    		parent.resetBalance();	//?
-//    		node.resetBalance();	//?
-    			
-				if(x.getParent()==null){
-				root=x; 
-				}else{
-					parent=x;
-				}
-    	}
-    	}
-    	
-    	
-    	
-    	}
-    	if(parent.getParent()!=null){
-    	addBalance(parent,parent.getParent()); //fortsätt upp i trädet.
-    	}
-    //	return root;
-    }
     
-    //TEST BALANCE-METOD!!!
-    public void balance(TreeNode cur){	//balance(TreeNode n,TreeNode p)
+    
+   
+    public void balance(TreeNode cur){	//Förstå /Strukturera om.
     	
     	setBalance(cur);
     	int balance = cur.getBalance();
@@ -215,7 +165,7 @@ public class AvlTree {
     		  
     		  // we did not reach the root yet
     		  if(cur.getParent()!=null) {
-    		   balance(cur.getParent());	//recursiveBalance
+    		   balance(cur.getParent());	
     		  } else {
     		   this.root = cur;
     		   System.out.println("------------ Balancing finished ----------------");
@@ -224,18 +174,27 @@ public class AvlTree {
     private void setBalance(TreeNode node) {	//OK
   	  node.setBalance(height(node.getRight())-height(node.getLeft())) ;
   	 }
-    private int height(TreeNode cur) {	//Förstå
-  	  if(cur==null) {
+    private int height(TreeNode node) {	//Förstå
+  	 
+    	
+      if(node==null) {	
   	   return -1;
   	  }
-  	  if(cur.getLeft()==null && cur.getRight()==null) {	
+
+      TreeNode left=node.getLeft();
+      TreeNode right=node.getRight();
+  	
+  	  if(left==null && right==null) {	
   	   return 0;
-  	  } else if(cur.getLeft()==null) {
-  	   return 1+height(cur.getRight());
-  	  } else if(cur.getRight()==null) {
-  	   return 1+height(cur.getLeft());
-  	  } else {
-  	   return 1+maximum(height(cur.getLeft()),height(cur.getRight()));
+  	  }
+  	  else if(left==null) {
+  	   return 1+height(right);
+  	  }
+  	  else if(right==null) {
+  	   return 1+height(left);
+  	  } 
+  	  else {
+  	   return 1+maximum(height(left),height(right));
   	  }
   	 }
     
