@@ -100,7 +100,7 @@ public class BinaryTree {
 
     /**
      * Inserts the newNode into the Binarytree when it finds the right position.
-     * Current is used to compare to value to find the right location. 
+     * Current is used to compare to the value to find the right location. 
      * Returns newNodes parent.
      * @param current -TreeNode to compare to.
      * @param newNode -TreeNode to insert.
@@ -157,7 +157,7 @@ public class BinaryTree {
 	 * compare the Key to. If there is a Match- Return the "Found" TreeNode.
 	 * @param key -Key to the Searched TreeNode
 	 * @param node	- TreeNode for comparison.
-	 * @return
+	 * @return TreeNode
 	 */
 	public TreeNode find(int key, TreeNode node) {
 

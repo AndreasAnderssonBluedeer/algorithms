@@ -28,10 +28,10 @@ public class TreeNode {
     }
     
     /**
-     * A Method that sets "balance" depending on the number nodes in the
+     * A Method that sets "balance" depending on the number of nodes in the
      * left and right subtree. The Parameter recieves an int to do this.
      *
-     * @param value - the balance variables new value.
+     * @param value - the balance variable's new value.
      */
     public void setBalance(int value){
     	balance=value;
@@ -63,7 +63,7 @@ public class TreeNode {
    }
     
     /**
-     * Returns this TreeNodes parent.
+     * Return this TreeNodes parent.
      * @return TreeNode
      */
     public TreeNode getParent(){
@@ -71,7 +71,7 @@ public class TreeNode {
    }
     
     /**
-     * Sets this TreeNodes left child, Receieves a TreeNode as parameter.
+     * Set this TreeNodes left child, Receieves a TreeNode as parameter.
      * @param left -This TreeNodes left-child.
      */
     public void setLeft(TreeNode left){
@@ -79,7 +79,7 @@ public class TreeNode {
     }
     
     /**
-     * Sets this TreeNodes right child, Receives a TreeNode as parameter.
+     * Set this TreeNodes right child, Receives a TreeNode as parameter.
      * @param right -This TreeNodes right-child
      */
     public void setRight(TreeNode right){
@@ -113,8 +113,8 @@ public class TreeNode {
     //Print methods
     
     /**
-     * A Method that is used to print the TreeNodes, together with the AvlTree-class
-     * -this will print the entire tree.
+     * A Method that is used to print the TreeNodes in the entire AVL-TREE.
+     * Uses printTree(boolean,String) for the actual print.
      */
     public void printTree(){
 
@@ -128,6 +128,7 @@ public class TreeNode {
     }
     
     /**
+     * A part of the process to print the tree. This method does the actual "print".
      * Receives a Boolean and a String. The Boolean is used to determine 
      * if the visual print should be a / or a \ . (Right or left child).
      * 
